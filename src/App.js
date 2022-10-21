@@ -17,21 +17,28 @@ import DeleteUser from "./component/user/delete";
 import Getusers from "./component/user/getall";
 
 import Getorders from "./component/orders/getall";
+import Cart from "./component/cart";
 
-
+import Productdetails from "./component/home/product";
 
 function App() {
   const [products, setProducts] = useState([]);
-  
-  
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
   useEffect(() => {
     let mounted = true;
     if (mounted) {
-      const fetchData = () => {
-        getAll().then((res) => {
-          setProducts(res);
-          
-        });
+      const fetchData = async () => {
+        try {
+          setLoading(true);
+          getAll().then((res) => {
+            setLoading(false);
+            setProducts(res);
+          });
+        } catch (err) {
+          setError(err.massage);
+          setLoading(false);
+        }
       };
       fetchData();
     }
@@ -39,35 +46,36 @@ function App() {
       mounted = false;
     };
   }, []);
-  
 
-  
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Home products={products} />} />
+        <Route
+          path="/"
+          element={<Home products={products} loading={loading} error={error} />}
+        />
         <Route path="/signup" element={<Signup />} />
         <Route path="/mainN" element={<Nuser products={products} />} />
 
-        <Route  path="/admin" element={<Admin  />} >
-        <Route path="product/delete" element={<Deletep />} />
-        <Route path="product" element={<NewProduct />} />
-        <Route path="product/update" element={<EditProduct />} />
+        <Route path="/admin" element={<Admin />}>
+          <Route path="product/delete" element={<Deletep />} />
+          <Route path="product" element={<NewProduct />} />
+          <Route path="product/update" element={<EditProduct />} />
 
-        <Route path="user" element={<Newuser />} />
-        <Route path="user/update" element={<Updateuser />} />
-        <Route path="user/delete" element={<DeleteUser />} />
-        <Route path="user/index" element={<Getusers />} />
+          <Route path="user" element={<Newuser />} />
+          <Route path="user/update" element={<Updateuser />} />
+          <Route path="user/delete" element={<DeleteUser />} />
+          <Route path="user/index" element={<Getusers />} />
 
-        
-        <Route path="order/get" element={<Getorders />} />
+          <Route path="order/get" element={<Getorders />} />
+        </Route>
 
-          </Route>
-         
-          {/* <Route path="/l" element={</>} /> */}
-
+        <Route path="/cart" element={<Cart products={products} />} />
+        <Route
+          path="/productdetails/:id"
+          element={<Productdetails products={products} />}
+        />
         <Route path="/login" element={<Login />} />
-        
       </Routes>
     </BrowserRouter>
   );

@@ -1,27 +1,34 @@
 import Token from "../loglogic/token";
 
-let token=Token().token
+// let token=Token().token
 const headers = {
   'Accept': 'application/json',
-  'authorization': token
+  // 'authorization': token
 }
 
-export async function corder (credentials) {
- 
-  return fetch('http://localhost:8080/api/orders'  , {
-    method: "POST",
+export async function Delete (cc) {
+
+  return fetch(`http://localhost:8080/api/orders/products/delete` , {
+    method: "DELETE",
     headers: {
       ...headers,
       "Content-Type": "application/json",
+      
     },
-    body: JSON.stringify(credentials),
+    body: JSON.stringify(cc),
+   
+  
   }).then((data) => data.json());
 }
 
+export async function index (){
+return fetch('http://localhost:8080/api/orders')
+.then(res=>res.json())
+}
     
   export async function addproduct (info) {
  
-    return fetch("http://localhost:8080/api/orders/products"  , {
+    return await fetch("http://localhost:8080/api/orders/products"  , {
       method: "POST",
       headers: {
         ...headers,
@@ -31,17 +38,27 @@ export async function corder (credentials) {
     }).then((data) => data.json());
   }
 
+  export async function updateaddproduct (quantity,products_id) {
+ 
+    return await fetch("http://localhost:8080/api/orders/products/update"  , {
+      method: "POST",
+      headers: {
+        ...headers,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(quantity,products_id),
+    }).then((data) => data.json());
+  }
 
   export async function getorder (users_id){
-    return fetch(`http://localhost:8080/api/orders/users/${users_id}`, {
+    const data=await fetch(`http://localhost:8080/api/orders/users/${users_id}`, {
       methode:"GET",
       headers: {
         ...headers,
         "Content-Type": "application/json",
       },
-      
+   
     })
-    .then(res => res.json())
-    
-    
+   const res= data.json() 
+  return res
   }

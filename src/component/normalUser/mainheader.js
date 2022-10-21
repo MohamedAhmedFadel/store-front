@@ -1,7 +1,8 @@
 import logo from '../../images/fav.png'
 import Logout from "../../loglogic/logout";
 import Token from "../../loglogic/token";
-
+import { Link } from "react-router-dom";
+import Search from '../seaarch';
 
 function Mainheader(){
     const email = Token().email
@@ -11,10 +12,8 @@ function Mainheader(){
               <img className="logoimg" src={logo} alt=''/>
             </div>
             <div className="rightpart">
-            <form >
-              <input className='input' />
-              <button className='button'>search</button>
-            </form>
+           <Search/>
+            <div> <Link to="/cart">cart</Link></div>
            <div>
             <div className="circle">{email[0].toUpperCase()}</div>
             <button className='button2' onClick={Logout}>signout</button>

@@ -1,9 +1,9 @@
 import Token from "../loglogic/token";
 
-let token=Token().token
+// let token=Token().token
 const headers = {
   'Accept': 'application/json',
-  'authorization': token
+  // 'authorization': token
 }
 
 export async function cproduct (credentials) {
@@ -32,14 +32,6 @@ export async function dproduct (id) {
 }
    
 
-
-
-
-// export const get = (id) =>
-//   fetch(`${api}/users/:${id}`)
-//     .then(res => res.json())
-//     .then(data => data.user)
-
  export const getAll = () =>
    fetch('http://localhost:8080/api/products')
      .then(res => res.json())
@@ -55,3 +47,5 @@ export const update = (credentials) =>
     body: JSON.stringify(credentials)
   }).then(res => res.json())
 
+export const getProduct =(id)=>
+  fetch(`http://localhost:8080/api/products/${id}`).then(res=>res.json())
